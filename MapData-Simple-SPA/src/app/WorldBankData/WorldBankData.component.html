@@ -1,0 +1,121 @@
+<meta name="Description" content="World Bank data map, see global climate, economic and humanitarian charts through maps and charts.">
+
+<header class="container">
+  <h1 class="text-center"> World bank data map</h1>
+  <p>Select a data set and some countries to view associated data.</p>
+</header>
+
+<div class="body">
+  <div class="container" style="min-height: 100%;">
+    <div class="row mt-2">
+      <div class="col-sm-12 col-md-5 col-lg-4 border bg-light">
+        <h1>Data types</h1>
+        <ul>
+          <div *ngFor="let header of headers">
+            <li
+              class="p-1"
+              id="{{ 'Header_' + header }}"
+              style="height: 100%;"
+              (click)="HeaderClick(header)"
+              tabindex="0"
+              role="button"
+            >
+              <h6>{{ header }}</h6>
+            </li>
+          </div>
+        </ul>
+
+        <ul id="typeObj">
+          <div *ngFor="let item of HeaderTypes">
+            <div *ngIf="CurrentCategory === item.Header">
+              <li
+                class=""
+                id="{{ item.type }}"
+                style="height: 100%;"
+                (click)="TypeClick(item)"
+                btnCheckbox
+                tabindex="0"
+                role="button"
+              >
+                <div class="small">{{ item.type }}</div>
+              </li>
+              <div id="{{ 'selector_' + item.type }}" class="d-none pt-1 ml-3">
+                <ng-container
+                  *ngFor="
+                    let indicator of IndicatorKVP | keyvalue;
+                    let i = index
+                  "
+                >
+                  <div *ngIf="item.type === indicator.value.type">
+                    <div class="small mb-1">
+                      <label>
+                        <input
+                          type="checkbox"
+                          [checked]="indicator.value.value"
+                          (change)="SelectedChartIndicator(indicator)"
+                        />
+                        {{ indicator.value.indicator }}
+                      </label>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ul>
+      </div>
+
+      <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 px-0">
+        <span>
+          <b>Hovering:</b>
+          &nbsp;
+        </span>
+        <span id="hoverElement"></span>
+        <div id="map" class="map border"></div>
+        <div class="row border bg-light">
+          <div class="col-8">
+            <h3 class="small">Selected indicators:</h3>
+            <ng-container
+              *ngFor="let ind of IndicatorKVP | keyvalue; let i = index"
+            >
+              <div *ngIf="ind.value.value === true">
+                <div class="small mb-1">
+                  <label>
+                    <input
+                      type="checkbox"
+                      [checked]="ind.value.value"
+                      (change)="SelectedChartIndicator(ind)"
+                    />
+                    {{ ind.value.indicator }}
+                  </label>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-4">
+            <h3 class="small">Selected Countries:</h3>
+            <ng-container *ngFor="let country of selected">
+              <div class="small">{{ country.values_.name }}, </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="chartList"
+      class="container-fluid bg-light mt-2 border px-0"
+    >
+      <h1>Charts:</h1>
+      <div *ngFor="let item of CanvasLength; let myIndex = index">
+        <canvas
+          style="display: none !important;"
+          id="{{ 'prePopchartJs_' + myIndex }}"
+        ></canvas>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
