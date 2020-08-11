@@ -26,8 +26,8 @@ namespace MapDataApi.Controllers
             {
                 CredentialStore = new InMemoryCredentialStore
                 {
-                    ConsumerKey = "LJgwk3kivbNGE8Tc7g2vufpCd",
-                    ConsumerSecret = "2M68sQY94ThKzE1CRkFJ6sVuFzATj7Orv6Q88psiVgVEhBcLq7",
+                    ConsumerKey = "",
+                    ConsumerSecret = "",
                 },
             };
             await auth.AuthorizeAsync();
